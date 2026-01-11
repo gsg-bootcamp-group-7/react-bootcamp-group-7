@@ -1,11 +1,7 @@
 import { Grid, Title, Loader, Tabs, rem, Container } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "./Product";
-import {
-  IconDiscount,
-  IconDiscountOff,
-  IconList,
-} from "@tabler/icons-react";
+import { IconDiscount, IconDiscountOff, IconList } from "@tabler/icons-react";
 
 export const Products = () => {
   const {
