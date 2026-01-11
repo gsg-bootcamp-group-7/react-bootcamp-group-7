@@ -28,11 +28,11 @@ export const useGetAllProducts = () => {
       return {
         all: data,
         productsWithDiscountHigherThan10: data.filter(
-          (product) => product.hasDiscounts && product.discountPercentage > 10
+          (product) => product.hasDiscounts && product.discountPercentage > 10,
         ),
 
         productsWithDiscountLowerThan10: data.filter(
-          (product) => product.hasDiscounts && product.discountPercentage <= 10
+          (product) => product.hasDiscounts && product.discountPercentage <= 10,
         ),
       };
     },
@@ -46,5 +46,3 @@ export const useGetAllProducts = () => {
     isLoading,
   };
 };
-
-useGetAllProducts.queryKey = Get_ALL_PRODUCTS_QUERY_KEY;
