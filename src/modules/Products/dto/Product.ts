@@ -1,4 +1,4 @@
-export type Product = {
+export type ProductDto = {
   id: string;
   title: string;
   description: string;
@@ -6,13 +6,13 @@ export type Product = {
   price: number;
   thumbnail: string;
   stock: number;
-  reviews: Review[];
+  reviews: ReviewDto[];
 };
 
-export type Review = {
+export type ReviewDto = {
   rating: number;
   comment: string;
   date: string;
   reviewerName: string;
-  reviewerEmainl: string;
+  reviewerEmail: string;
 };
