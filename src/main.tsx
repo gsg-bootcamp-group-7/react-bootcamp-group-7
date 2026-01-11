@@ -6,14 +6,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
-import { ProductsProvider } from "./modules/Products/index.tsx";
-
+import { createProductsModule } from "./modules/Products/index.tsx";
+const { Provider: ProductsProvider } = createProductsModule();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider>
-      <ProductsProvider value="products">
+      <ProductsProvider>
         <App />
       </ProductsProvider>
     </MantineProvider>
-  </StrictMode>
+  </StrictMode>,
 );

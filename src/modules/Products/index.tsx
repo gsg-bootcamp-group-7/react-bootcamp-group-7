@@ -1,9 +1,11 @@
 import { createContext, useContext, type PropsWithChildren } from "react";
+import { restProducts } from "./repositry/resetProducts";
+import type { ProductsRepository } from "./repositry/ProductsRepository";
 
-const ProductsContext = createContext<string | null>(null);
+const ProductsContext = createContext<ProductsRepository | null>(null);
 
 type ProductsProvidersProps = PropsWithChildren<{
-  value: string;
+  value: ProductsRepository;
 }>;
 
 export const ProductsProvider = ({
@@ -24,4 +26,13 @@ export const useProducts = () => {
     throw new Error("useProducts must be used within a ProductsProvider");
   }
   return context;
+};
+
+export const createProductsModule = () => {
+  const value = restProducts();
+  return {
+    Provider: ({ children }: PropsWithChildren) => (
+      <ProductsProvider value={value}>{children}</ProductsProvider>
+    ),
+  };
 };
