@@ -23,7 +23,7 @@ export const useGetAllProducts = () => {
   } = useQuery({
     queryKey: [Get_ALL_PRODUCTS_QUERY_KEY],
     queryFn: getAll,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60, // Reverted to 1 minute
     select: (data: Product[]): SelectQueryData => {
       return {
         all: data,
