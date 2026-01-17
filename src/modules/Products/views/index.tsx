@@ -11,8 +11,16 @@ import {
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 
 export const Products = () => {
-  const { products } = useGetAllProducts();
-  console.log(products);
+  const {
+    isEmpty,
+    productsWithDiscountHigherThan10,
+    productsWithDiscountLowerThan10,
+  } = useGetAllProducts();
+
+
+  if (isEmpty) {
+    <Title>Product Not Found</Title>;
+  }
   return (
     <>
       <Title>Browse Products</Title>
@@ -24,7 +32,7 @@ export const Products = () => {
           lg: 4,
         }}
       >
-        {products.map((product) => (
+        {productsWithDiscountHigherThan10.map((product) => (
           <Card
             key={product.id}
             shadow="sm"
@@ -45,7 +53,34 @@ export const Products = () => {
               {product.description}
             </Text>
 
-            <Button color="blue" fullWidth mt="md" mt="auto" radius="md">
+            <Button color="blue" fullWidth mt="md" radius="md">
+              Order now
+            </Button>
+          </Card>
+        ))}
+
+        {productsWithDiscountLowerThan10.map((product) => (
+          <Card
+            key={product.id}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+          >
+            <Card.Section>
+              <Image src={product.image} height={160} alt="Norway" />
+            </Card.Section>
+
+            <Group justify="space-between" mt="md" mb="xs">
+              <Text fw={500}>{product.name}</Text>
+              {product.isAvailable && <Badge color="pink">On Sale</Badge>}
+            </Group>
+
+            <Text size="sm" mb="md" c="dimmed">
+              {product.description}
+            </Text>
+
+            <Button color="blue" fullWidth mt="md" radius="md">
               Order now
             </Button>
           </Card>
