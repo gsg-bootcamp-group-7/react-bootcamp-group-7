@@ -10,7 +10,6 @@ function App() {
           <Products />
         </AppShellMain>
       </AppShell>
-      <Products />
     </>
   );
 }
