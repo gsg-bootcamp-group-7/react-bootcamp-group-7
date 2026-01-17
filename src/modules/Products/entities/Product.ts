@@ -1,3 +1,4 @@
+
 export type Product = {
   id: string;
   name: string;
@@ -7,7 +8,7 @@ export type Product = {
   image: string;
   isAvailable: boolean;
   hasDiscounts: boolean;
-  discountPercentage:number,
+  discountPercentage: number;
   reviews: Review[];
 };
 

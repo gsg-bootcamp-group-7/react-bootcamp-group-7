@@ -1,14 +1,6 @@
-import {
-  Badge,
-  Button,
-  Card,
-  Group,
-  Image,
-  SimpleGrid,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Grid, Title } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
+import { Product } from "./Product";
 
 export const Products = () => {
   const {
@@ -17,75 +9,24 @@ export const Products = () => {
     productsWithDiscountLowerThan10,
   } = useGetAllProducts();
 
-
   if (isEmpty) {
-    <Title>Product Not Found</Title>;
+    return <Title> No products available </Title>;
   }
+
   return (
     <>
-      <Title>Browse Products</Title>
-
-      <SimpleGrid
-        cols={{
-          sm: 2,
-          md: 3,
-          lg: 4,
-        }}
-      >
-        {productsWithDiscountHigherThan10.map((product) => (
-          <Card
-            key={product.id}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-          >
-            <Card.Section>
-              <Image src={product.image} height={160} alt="Norway" />
-            </Card.Section>
-
-            <Group justify="space-between" mt="md" mb="xs">
-              <Text fw={500}>{product.name}</Text>
-              {product.isAvailable && <Badge color="pink">On Sale</Badge>}
-            </Group>
-
-            <Text size="sm" mb="md" c="dimmed">
-              {product.description}
-            </Text>
-
-            <Button color="blue" fullWidth mt="md" radius="md">
-              Order now
-            </Button>
-          </Card>
-        ))}
-
-        {productsWithDiscountLowerThan10.map((product) => (
-          <Card
-            key={product.id}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-          >
-            <Card.Section>
-              <Image src={product.image} height={160} alt="Norway" />
-            </Card.Section>
-
-            <Group justify="space-between" mt="md" mb="xs">
-              <Text fw={500}>{product.name}</Text>
-              {product.isAvailable && <Badge color="pink">On Sale</Badge>}
-            </Group>
-
-            <Text size="sm" mb="md" c="dimmed">
-              {product.description}
-            </Text>
-
-            <Button color="blue" fullWidth mt="md" radius="md">
-              Order now
-            </Button>
-          </Card>
-        ))}
-      </SimpleGrid>
+      <Title>Products with Discount Higher Than 10%</Title>
+      <Grid>
+        {productsWithDiscountHigherThan10.map((product) => {
+          return <Product key={product.id} product={product} />;
+        })}
+      </Grid>
+      <Title>Products with Discount Lower Than 10%</Title>
+      <Grid>
+        {productsWithDiscountLowerThan10.map((product) => {
+          return <Product key={product.id} product={product} />;
+        })}
+      </Grid>
     </>
   );
 };
