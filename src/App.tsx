@@ -1,16 +1,16 @@
 import "@mantine/core/styles.css";
 import { Products } from "./modules/Products/views";
-import { AppShell, AppShellMain } from "@mantine/core";
+import { AppShell, AppShellMain, Container } from "@mantine/core";
 
 function App() {
   return (
-    <>
-      <AppShell padding="md">
-        <AppShellMain>
+    <AppShell style={{ backgroundColor: "#f8f9fa" }}>
+      <AppShellMain>
+        <Container size="lg" py="xl">
           <Products />
-        </AppShellMain>
-      </AppShell>
-    </>
+        </Container>
+      </AppShellMain>
+    </AppShell>
   );
 }
 

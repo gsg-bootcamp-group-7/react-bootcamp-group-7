@@ -1,7 +1,9 @@
-import { Grid, Title, Loader, Tabs, rem, Container } from "@mantine/core";
+import { Grid, Title, Stack, Pagination, Center } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "./Product";
-import { IconDiscount, IconDiscountOff, IconList } from "@tabler/icons-react";
+import { useState, useEffect } from "react";
+
+const ITEMS_PER_PAGE = 8;
 
 export const Products = () => {
   const {
@@ -28,55 +30,60 @@ export const Products = () => {
     );
   }
 
+  const [activePage, setActivePage] = useState(1);
+
   if (isEmpty) {
-    return <Title> No products available </Title>;
+    return (
+      <Stack align="center" mt="xl">
+        <Title order={3} c="dimmed">
+          No products available
+        </Title>
+      </Stack>
+    );
   }
 
+
+  const allProducts = [
+    ...productsWithDiscountHigherThan10,
+    ...productsWithDiscountLowerThan10,
+  ];
+
+  const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
+  const start = (activePage - 1) * ITEMS_PER_PAGE;
+  const paginatedProducts = allProducts.slice(start, start + ITEMS_PER_PAGE);
+
+
+  useEffect(() => {
+    if (paginatedProducts.length === 0 && activePage > 1) {
+      setActivePage((prev) => prev - 1);
+    }
+  }, [paginatedProducts.length, activePage]);
+
   return (
-    <Container>
-      <Tabs defaultValue="all">
-        <Tabs.List>
-          <Tabs.Tab value="all" leftSection={<IconList style={iconStyle} />}>
-            All
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="high-discount"
-            leftSection={<IconDiscount style={iconStyle} />}
-          >
-            High Discount
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="low-discount"
-            leftSection={<IconDiscountOff style={iconStyle} />}
-          >
-            Low Discount
-          </Tabs.Tab>
-        </Tabs.List>
+    <Stack gap="xl">
+      <Title order={2} size="h1" ta="center" c="dark.8" mb="sm">
+        Our Collection
+      </Title>
 
-        <Tabs.Panel value="all" pt="lg">
-          <Grid>
-            {products.map((product) => {
-              return <Product key={product.id} product={product} />;
-            })}
-          </Grid>
-        </Tabs.Panel>
+      <Grid gutter="xl">
+        {paginatedProducts.map((product) => (
+          <Product key={product.id} product={product} />
+        ))}
+      </Grid>
 
-        <Tabs.Panel value="high-discount" pt="lg">
-          <Grid>
-            {productsWithDiscountHigherThan10.map((product) => {
-              return <Product key={product.id} product={product} />;
-            })}
-          </Grid>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="low-discount" pt="lg">
-          <Grid>
-            {productsWithDiscountLowerThan10.map((product) => {
-              return <Product key={product.id} product={product} />;
-            })}
-          </Grid>
-        </Tabs.Panel>
-      </Tabs>
-    </Container>
+      {totalPages > 1 && (
+        <Center mt="xl">
+          <Pagination
+            total={totalPages}
+            value={activePage}
+            onChange={setActivePage}
+            size="lg"
+            radius="md"
+            withEdges
+            color="indigo" 
+          />
+        </Center>
+      )}
+    </Stack>
   );
 };

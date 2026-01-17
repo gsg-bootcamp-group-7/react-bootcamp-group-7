@@ -10,10 +10,10 @@ import "./index.css";
 import { createProductsModule } from "./modules/Products/index.tsx";
 
 const queryClient = new QueryClient({
-  defaultOptions:{
-    queries:{
-      refetchOnWindowFocus:false,
-      retry:false,
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
     }
   }
 })
@@ -23,11 +23,15 @@ const { Provider: ProductsProvider } = createProductsModule();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-<QueryClientProvider client={queryClient}>
-  <ReactQueryDevtools />
-<MantineProvider>
-      <ProductsProvider>
-        <App />
-      </ProductsProvider>
-    </MantineProvider>  </StrictMode>,
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <MantineProvider>
+        <ProductsProvider>
+          <App />
+        </ProductsProvider>
+      </MantineProvider>
+
+
+    </QueryClientProvider>
+  </StrictMode>,
 );
