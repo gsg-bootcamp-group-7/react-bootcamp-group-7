@@ -1,4 +1,13 @@
-import { Grid, Title, Stack, Pagination, Center } from "@mantine/core";
+import {
+  Grid,
+  Title,
+  Stack,
+  Pagination,
+  Center,
+  Loader,
+  Container,
+  rem,
+} from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "./Product";
 import { useState, useEffect } from "react";
@@ -14,6 +23,22 @@ export const Products = () => {
     isLoading,
   } = useGetAllProducts();
   const iconStyle = { width: rem(12), height: rem(12) };
+  const [activePage, setActivePage] = useState(1);
+
+  const allProducts = [
+    ...productsWithDiscountHigherThan10,
+    ...productsWithDiscountLowerThan10,
+  ];
+
+  const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
+  const start = (activePage - 1) * ITEMS_PER_PAGE;
+  const paginatedProducts = allProducts.slice(start, start + ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (paginatedProducts.length === 0 && activePage > 1) {
+      setActivePage((prev) => prev - 1);
+    }
+  }, [paginatedProducts.length, activePage]);
 
   if (isLoading) {
     return (
@@ -30,8 +55,6 @@ export const Products = () => {
     );
   }
 
-  const [activePage, setActivePage] = useState(1);
-
   if (isEmpty) {
     return (
       <Stack align="center" mt="xl">
@@ -41,23 +64,6 @@ export const Products = () => {
       </Stack>
     );
   }
-
-
-  const allProducts = [
-    ...productsWithDiscountHigherThan10,
-    ...productsWithDiscountLowerThan10,
-  ];
-
-  const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
-  const start = (activePage - 1) * ITEMS_PER_PAGE;
-  const paginatedProducts = allProducts.slice(start, start + ITEMS_PER_PAGE);
-
-
-  useEffect(() => {
-    if (paginatedProducts.length === 0 && activePage > 1) {
-      setActivePage((prev) => prev - 1);
-    }
-  }, [paginatedProducts.length, activePage]);
 
   return (
     <Stack gap="xl">
@@ -80,7 +86,7 @@ export const Products = () => {
             size="lg"
             radius="md"
             withEdges
-            color="indigo" 
+            color="indigo"
           />
         </Center>
       )}
