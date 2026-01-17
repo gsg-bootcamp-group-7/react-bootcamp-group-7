@@ -39,9 +39,10 @@ export const useGetAllProducts = () => {
   });
 
   return {
+    products: data.all,
     productsWithDiscountHigherThan10: data.productsWithDiscountHigherThan10,
     productsWithDiscountLowerThan10: data.productsWithDiscountLowerThan10,
-    isEmpty: error,
+    isEmpty: !isLoading && data.all.length === 0,
     isLoading,
   };
 };
